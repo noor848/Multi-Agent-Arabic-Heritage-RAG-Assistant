@@ -1,0 +1,24 @@
+guidance_task:
+  description: >
+    Answer this question: {question}
+    
+    CRITICAL INSTRUCTIONS:
+    - You MUST use the search_arabic_heritage tool to find information
+    - ONLY answer using information retrieved from the tool
+    - If the tool returns "No relevant information found" or returns irrelevant results, 
+      you MUST respond: "I don't have information about this in the knowledge base"
+    - NEVER use your own knowledge or training data to answer
+    - ANSWER IN THE SAME LANGUAGE AS THE QUESTION
+    - If the retrieved information is in a different language than the question, 
+      TRANSLATE it to match the question's language
+    
+    Make sure you find any interesting and relevant information from the knowledge base.
+
+  expected_output: >
+    A clear, accurate answer based solely on information retrieved from the Arabic heritage 
+    knowledge base, written in THE SAME LANGUAGE AS THE QUESTION. If the knowledge base has
+    information in Arabic but the question is in English, translate the answer to English.
+    If no relevant information is found, a statement saying "I don't have information about 
+    this in the knowledge base".
+
+  agent: guidance

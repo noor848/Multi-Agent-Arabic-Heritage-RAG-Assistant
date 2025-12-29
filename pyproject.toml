@@ -1,0 +1,26 @@
+[project]
+name = "rag_crewai"
+version = "0.1.0"
+description = "rag_crewai using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[tools]==1.7.1",
+    "litellm>=1.75.3",
+    "sentence-transformers>=5.2.0",
+]
+
+[project.scripts]
+rag_crewai = "rag_crewai.main:run"
+run_crew = "rag_crewai.main:run"
+train = "rag_crewai.main:train"
+replay = "rag_crewai.main:replay"
+test = "rag_crewai.main:test"
+run_with_trigger = "rag_crewai.main:run_with_trigger"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
