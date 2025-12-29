@@ -3,7 +3,6 @@ from typing import List, Type, Any
 from pydantic import BaseModel, Field, ConfigDict
 from sentence_transformers import SentenceTransformer
 import numpy as np
-import os
 
 
 
@@ -31,7 +30,7 @@ class ArabicHeritageTool(BaseTool):
         print("Loading embedding model...")
         self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 
-        with open("src/rag_crewai/_ALL_ARAB_HERITAGE_EN.txt", 'r', encoding='utf-8', errors='ignore') as f:
+        with open("knowledge/_ALL_ARAB_HERITAGE_EN.txt", 'r', encoding='utf-8', errors='ignore') as f:
             content = f.read()
 
         self.text_chunks = self._create_chunks(content)
