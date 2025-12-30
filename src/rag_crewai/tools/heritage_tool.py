@@ -10,9 +10,9 @@ class TXTSearchInput(BaseModel):
     query: str = Field(..., description="Search query")
 
 
-class ArabicHeritageTool(BaseTool):
-    name: str = "search_arabic_heritage"
-    description: str = "Searches the Arabic heritage document for relevant information"
+class HeritageTool(BaseTool):
+    name: str = "search_heritage"
+    description: str = "Searches the heritage document for relevant information"
     args_schema: Type[BaseModel] = TXTSearchInput
     model_config = ConfigDict(extra='forbid')  # ← THIS LINE
 
@@ -65,4 +65,4 @@ class ArabicHeritageTool(BaseTool):
         results = [self.text_chunks[i] for i in top_indices]
         return "\n\n--- RELEVANT CHUNK ---\n\n".join(results)
 
-print("Initializing Arabic Heritage Search Tool...")
+print("Initializing  Heritage Search Tool...")

@@ -1,10 +1,16 @@
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
-from typing import List
-from .tools.arabic_heritage_tool import ArabicHeritageTool
+from crewai.tools import BaseTool
+from typing import List, Type
+from pydantic import BaseModel, Field
+from .tools.heritage_tool import HeritageTool
+from .tools.language_detection import LanguageDetectionTool
+from transformers import pipeline
 
-txt_tool = ArabicHeritageTool()
+
+txt_tool = HeritageTool()
+language_tool = LanguageDetectionTool()
 
 @CrewBase
 class RagCrewai():
@@ -13,16 +19,19 @@ class RagCrewai():
     agents: List[BaseAgent]
     tasks: List[Task]
 
+
+
     @agent
     def guidance(self) -> Agent:
         return Agent(
-            config=self.agents_config['guidance'], # type: ignore[index]
+            config=self.agents_config['guidance'],
             llm=LLM(
                 model="ollama/aya-expanse:8b",
-                base_url="http://localhost:11434"
+                base_url="http://localhost:11434",
+
             ),
-            tools=[txt_tool],
-            verbose=True
+            tools=[txt_tool, language_tool],
+            verbose=True,
         )
 
     @task
@@ -30,6 +39,7 @@ class RagCrewai():
         return Task(
             config=self.tasks_config['guidance_task'], # type: ignore[index]
         )
+
 
     @crew
     def crew(self) -> Crew:

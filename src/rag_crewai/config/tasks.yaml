@@ -1,24 +1,30 @@
 guidance_task:
   description: >
-    Answer this question: {question}
+    Answer the question: {question}
     
-    CRITICAL INSTRUCTIONS:
-    - You MUST use the search_arabic_heritage tool to find information
-    - ONLY answer using information retrieved from the tool
-    - If the tool returns "No relevant information found" or returns irrelevant results, 
-      you MUST respond: "I don't have information about this in the knowledge base"
-    - NEVER use your own knowledge or training data to answer
-    - ANSWER IN THE SAME LANGUAGE AS THE QUESTION
-    - If the retrieved information is in a different language than the question, 
-      TRANSLATE it to match the question's language
+    ⚠️ CRITICAL - FOLLOW EXACTLY IN THIS ORDER:
     
-    Make sure you find any interesting and relevant information from the knowledge base.
+    STEP 1 (MANDATORY): 
+    - Call the "Language Detector" tool with the EXACT question text: {question}
+    - DO NOT make assumptions about language based on the topic or location mentioned
+    - The tool will return either 'ar' or 'en'
+    - Record this result
+    
+    STEP 2:
+    - Call the "search_heritage" tool to find relevant information
+    
+    STEP 3:
+    - Write your answer in the language detected in STEP 1:
+      * If STEP 1 returned 'ar' → Write ONLY in Arabic
+      * If STEP 1 returned 'en' → Write ONLY in English
+    
+    ❌ WRONG: "The question is about Gaza, so I'll answer in Arabic"
+    ✅ CORRECT: "The question is written in English, so I'll answer in English"
+    
+    The LANGUAGE of the question matters, NOT the topic/location mentioned in it.
 
   expected_output: >
-    A clear, accurate answer based solely on information retrieved from the Arabic heritage 
-    knowledge base, written in THE SAME LANGUAGE AS THE QUESTION. If the knowledge base has
-    information in Arabic but the question is in English, translate the answer to English.
-    If no relevant information is found, a statement saying "I don't have information about 
-    this in the knowledge base".
+    Heritage information in the same language as the question was asked.
+    Start with: "Detected Language: [ar/en]"
 
   agent: guidance
