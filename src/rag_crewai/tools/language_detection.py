@@ -2,6 +2,7 @@ from crewai.tools import BaseTool
 from typing import Type, Any
 from pydantic import BaseModel, Field
 from transformers import pipeline
+import torch
 
 
 class LanguageDetectionInput(BaseModel):
@@ -18,10 +19,12 @@ class LanguageDetectionTool(BaseTool):
 
     def __init__(self):
         super().__init__()
+        # Automatically detect device: use GPU if available, otherwise CPU
+        device = 0 if torch.cuda.is_available() else -1
         self.classifier = pipeline(
             "text-classification",
             model="papluca/xlm-roberta-base-language-detection",
-            device=0
+            device=device
         )
 
     def _run(self, text: str) -> str:
