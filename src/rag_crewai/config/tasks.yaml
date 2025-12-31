@@ -1,30 +1,33 @@
 guidance_task:
   description: >
     Answer the question: {question}
-    
+
     ⚠️ CRITICAL - FOLLOW EXACTLY IN THIS ORDER:
-    
+
     STEP 1 (MANDATORY): 
     - Call the "Language Detector" tool with the EXACT question text: {question}
     - DO NOT make assumptions about language based on the topic or location mentioned
     - The tool will return either 'ar' or 'en'
     - Record this result
-    
+
     STEP 2:
-    - Call the "search_heritage" tool to find relevant information
-    
+    - Analyze the question to determine what tools are needed:
+      * If asking about heritage/history → Use "search_heritage" tool
+      * If asking about weather/forecast → Use "Weather Forecast Tool" with the location
+      * If asking about both → Use both tools
+
     STEP 3:
     - Write your answer in the language detected in STEP 1:
       * If STEP 1 returned 'ar' → Write ONLY in Arabic
       * If STEP 1 returned 'en' → Write ONLY in English
-    
+
     ❌ WRONG: "The question is about Gaza, so I'll answer in Arabic"
     ✅ CORRECT: "The question is written in English, so I'll answer in English"
-    
+
     The LANGUAGE of the question matters, NOT the topic/location mentioned in it.
 
   expected_output: >
-    Heritage information in the same language as the question was asked.
+    Heritage information and/or weather forecast in the same language as the question was asked.
     Start with: "Detected Language: [ar/en]"
 
   agent: guidance
