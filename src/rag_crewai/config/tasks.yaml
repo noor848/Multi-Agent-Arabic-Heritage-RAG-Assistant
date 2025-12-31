@@ -1,33 +1,47 @@
-guidance_task:
+detect_language_task:
   description: >
-    Answer the question: {question}
+    Detect the language of this question: {question}
     
-    ⚠️ CRITICAL - FOLLOW EXACTLY IN THIS ORDER:
-    
-    STEP 1 (MANDATORY): 
-    - Call the "Language Detector" tool with the EXACT question text: {question}
-    - DO NOT make assumptions about language based on the topic or location mentioned
-    - The tool will return either 'ar' or 'en'
-    - Record this result
-    
-    STEP 2:
-    - Analyze the question to determine what tools are needed:
-      * If asking about heritage/history → Use "search_heritage" tool
-      * If asking about weather/forecast → Use "Weather Forecast Tool" with the location
-      * If asking about both → Use both tools
-    
-    STEP 3:
-    - Write your answer in the language detected in STEP 1:
-      * If STEP 1 returned 'ar' → Write ONLY in Arabic
-      * If STEP 1 returned 'en' → Write ONLY in English
-    
-    ❌ WRONG: "The question is about Gaza, so I'll answer in Arabic"
-    ✅ CORRECT: "The question is written in English, so I'll answer in English"
-    
-    The LANGUAGE of the question matters, NOT the topic/location mentioned in it.
+    Use the Language Detector tool to identify if the question is in Arabic ('ar') or English ('en').
 
   expected_output: >
-    Heritage information or weather forecast, in the same language as the question was asked. 
-    Just put the answer same as language the question asked with it.
+    A clear statement: "Language detected: [ar/en]"
 
-  agent: guidance
+  agent: language_detector  # ADD THIS
+
+heritage_research_task:
+  description: >
+    Research heritage and historical information related to: {question}
+    
+    Use the search_heritage tool to find relevant information.
+    
+    If not about heritage, return: "No heritage information needed"
+
+  expected_output: >
+    Detailed heritage information or statement that none is needed.
+
+  agent: heritage_expert  # ADD THIS
+
+weather_research_task:
+  description: >
+    Get weather forecast for the location in: {question}
+    
+    If not about weather, return: "No weather information needed"
+
+  expected_output: >
+    Weather forecast or statement that none is needed.
+
+  agent: weather_specialist  # ADD THIS
+
+format_report_task:
+  description: >
+    Create final response in the detected language combining all research.
+    
+    Rules:
+    - If 'ar' detected → respond in Arabic
+    - If 'en' detected → respond in English
+
+  expected_output: >
+    Complete formatted answer in the detected language.
+
+  agent: reporter
